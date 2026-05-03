@@ -1,1149 +1,379 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THEKUMEE 訂單系統</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
-            color: #1e293b;
-            font-size: 16px;
-        }
-        
-        .container {
-            max-width: 100%;
-            padding: 0;
-            margin: 0;
-        }
-        
-        nav {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            max-width: 1280px;
-            margin: 0 auto;
-            gap: 1rem;
-        }
-        
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
-        
-        .nav-logo {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #ec4899, #f97316);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        
-        .nav-title {
-            font-size: 1.125rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #be123c, #ea580c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            white-space: nowrap;
-        }
-        
-        @media (max-width: 640px) {
-            .nav-title {
-                font-size: 0.875rem;
-            }
-        }
-        
-        .nav-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .language-buttons {
-            display: flex;
-            gap: 0.5rem;
-            border-right: 1px solid #e2e8f0;
-            padding-right: 1rem;
-        }
-        
-        .lang-btn {
-            background: none;
-            border: none;
-            font-size: 0.875rem;
-            cursor: pointer;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.4rem;
-            transition: all 0.2s ease;
-            font-weight: 600;
-            color: #475569;
-        }
-        
-        .lang-btn:hover {
-            background: #f1f5f9;
-        }
-        
-        .lang-btn.active {
-            background: #fce7f3;
-            color: #be123c;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.875rem;
-            white-space: nowrap;
-        }
-        
-        @media (max-width: 640px) {
-            button {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.75rem;
-            }
-        }
-        
-        .btn-nav {
-            background: white;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .btn-nav.active {
-            background: #fce7f3;
-            color: #be123c;
-        }
-        
-        .btn-nav:active {
-            background: #f1f5f9;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #ec4899, #f97316);
-            color: white;
-            padding: 0.6rem 1.2rem;
-        }
-        
-        .btn-primary:active {
-            opacity: 0.9;
-        }
-        
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-        }
-        
-        .btn-success {
-            background: #16a34a;
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: #64748b;
-            color: white;
-        }
-        
-        main {
-            padding: 1rem;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-        
-        @media (max-width: 640px) {
-            .section-title {
-                font-size: 1.25rem;
-            }
-        }
-        
-        .card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 1rem;
-        }
-        
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-family: inherit;
-            margin-bottom: 0.75rem;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        input[type="file"] {
-            padding: 0.5rem;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .main-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 0.75rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        .product-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            transition: all 0.3s ease;
-        }
-        
-        .product-card:active {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .product-image {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 0.4rem;
-            margin-bottom: 0.5rem;
-            background: #f1f5f9;
-        }
-        
-        .product-name {
-            font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-            font-size: 0.875rem;
-            line-height: 1.2;
-        }
-        
-        .product-price {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #ec4899;
-            margin: 0.5rem 0;
-        }
-        
-        .product-stock {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stock-warning {
-            font-size: 0.75rem;
-            color: #dc2626;
-            font-weight: bold;
-        }
-        
-        .sidebar {
-            position: sticky;
-            top: 80px;
-        }
-        
-        @media (max-width: 1024px) {
-            .sidebar {
-                position: static;
-                top: auto;
-            }
-        }
-        
-        .cart-item {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.4rem;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.8rem;
-        }
-        
-        .cart-empty {
-            text-align: center;
-            color: #64748b;
-            padding: 1.5rem 0;
-        }
-        
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 1.125rem;
-            color: #ec4899;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid #cbd5e1;
-        }
-        
-        .admin-tabs {
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 1rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .admin-tab {
-            padding: 0.75rem 1rem;
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
-            color: #475569;
-            cursor: pointer;
-            font-weight: 500;
-            white-space: nowrap;
-            font-size: 0.875rem;
-        }
-        
-        @media (max-width: 640px) {
-            .admin-tab {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.75rem;
-            }
-        }
-        
-        .admin-tab.active {
-            color: #2563eb;
-            border-bottom-color: #2563eb;
-        }
-        
-        .settings-form {
-            display: grid;
-            gap: 1rem;
-        }
-        
-        .form-group {
-            display: grid;
-            gap: 0.3rem;
-        }
-        
-        .form-group label {
-            font-weight: bold;
-            font-size: 0.8rem;
-            color: #475569;
-        }
-        
-        .alert {
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .alert-success {
-            background: #dcfce7;
-            color: #166534;
-            border-left: 4px solid #16a34a;
-        }
-        
-        .alert-info {
-            background: #dbeafe;
-            color: #1e40af;
-            border-left: 4px solid #3b82f6;
-        }
-        
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1rem;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        }
-        
-        .login-box {
-            background: #334155;
-            border: 1px solid #475569;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            width: 100%;
-            max-width: 350px;
-            box-shadow: 0 20px 25px rgba(0,0,0,0.3);
-        }
-        
-        .login-box h2 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 1rem;
-        }
-        
-        .login-box input {
-            width: 100%;
-            margin-bottom: 0.75rem;
-            background: #475569;
-            border: 1px solid #64748b;
-            color: white;
-            padding: 0.75rem;
-        }
-        
-        .login-box input::placeholder {
-            color: #cbd5e1;
-        }
-        
-        .login-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .login-buttons button {
-            flex: 1;
-            padding: 0.75rem;
-        }
-        
-        .order-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 0.5rem;
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-        }
-        
-        .order-info {
-            flex: 1;
-        }
-        
-        .order-actions {
-            display: flex;
-            gap: 0.25rem;
-            flex-shrink: 0;
-        }
-        
-        .footer {
-            background: #1e293b;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-            font-size: 0.75rem;
-        }
-        
-        .image-preview {
-            width: 100%;
-            max-width: 200px;
-            height: auto;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            display: none;
-        }
-        
-        .image-preview.show {
-            display: block;
-        }
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <title>THEKUMEE 訂單系統</title>
+        <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+                    html, body { width: 100%; height: 100%; overflow-x: hidden; }
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #ffffff 0%, #f8fafc, #e2e8f0); color: #1e293b; font-size: 14px; }
+                    .container { max-width: 100%; padding: 0.75rem; margin: 0 auto; }
+                    nav { background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 1rem; max-width: 1280px; margin: 0 auto; gap: 1rem; }
+                    .nav-brand { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+                    .nav-logo { font-size: 1.5rem; }
+                    h1 { font-size: 1.25rem; font-weight: bold; margin: 0; }
+                    .cart-count { background: #dc2626; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+                    .admin-section { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+                    .section-title { font-weight: bold; font-size: 1rem; margin-bottom: 0.75rem; color: #78350f; }
+                    .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
+                    input, textarea, select { padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.875rem; }
+                    button { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.875rem; }
+                    .btn-primary { background: #3b82f6; color: white; }
+                    .btn-primary:hover { background: #2563eb; }
+                    .btn-success { background: #10b981; color: white; }
+                    .btn-success:hover { background: #059669; }
+                    .btn-danger { background: #dc2626; color: white; }
+                    .btn-danger:hover { background: #b91c1c; }
+                    .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+                    .card-title { font-weight: bold; font-size: 1rem; margin-bottom: 0.75rem; }
+                    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+                    .product-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; background: white; }
+                    .product-name { font-weight: bold; margin-bottom: 0.5rem; }
+                    .product-price { color: #ec4899; font-weight: bold; margin: 0.5rem 0; }
+                    .product-qty { margin: 0.5rem 0; }
+                    .cart-item { border: 1px solid #e2e8f0; border-radius: 4px; padding: 0.75rem; margin: 0.5rem 0; background: #f9fafb; }
+                    .cart-total { background: #dbeafe; border: 2px solid #3b82f6; border-radius: 4px; padding: 1rem; margin: 1rem 0; font-weight: bold; color: #1e40af; }
+                    .footer { text-align: center; padding: 1rem; color: #64748b; font-size: 0.75rem; }
+                    .hidden { display: none; }
+                    .loading { text-align: center; padding: 1rem; }
+                </style>
+    </head>
+    <body>
+            <nav>
+                        <div class="nav-content">
+                                        <div class="nav-brand">
+                                                            <div class="nav-logo">🛍️</div>div>
+                                                            <h1>THEKUMEE</h1>
+                                        </div>div>
+                                    <div class="cart-count" id="cartCount">0</div>div>
+                        </div>div>
+            </nav>
+    
+        <div class="container">
+                <!-- 관리자 섹션 -->
+                <div class="admin-section" id="adminPanel">
+                            <div class="section-title">📦 상품 관리 (관리자)</div>div>
+                            <div class="form-group">
+                                            <input type="text" id="adminProductName" placeholder="상품명" />
+                                            <input type="number" id="adminProductPrice" placeholder="가격" />
+                                            <input type="number" id="adminProductQty" placeholder="수량" />
+                                            <button class="btn-success" onclick="addProduct()">상품 추가</button>button>
+                            </div>div>
+                            <div id="adminProductsList" style="max-height: 200px; overflow-y: auto;"></div>div>
+                </div>div>
+        
+                <!-- 상품 목록 -->
+                <div class="card">
+                            <div class="card-title">🛒 상품 목록</div>div>
+                            <div class="products-grid" id="productsList">
+                                            <div class="loading">상품을 로딩 중입니다...</div>div>
+                            </div>div>
+                </div>div>
+        
+                <!-- 장바구니 -->
+                <div class="card">
+                            <div class="card-title">🛍️ 장바구니</div>div>
+                            <div id="cartItems"></div>div>
+                            <div class="cart-total">
+                                            <span>총액:</span>
+                                            <span>NT$<span id="cartTotal">0.00</span></span>
+                            </div>div>
+                </div>div>
+        
+                <!-- 주문 정보 -->
+                <div class="card">
+                            <div class="card-title">📋 주문정보</div>div>
+                            <div class="form-group">
+                                            <input type="text" id="customerName" placeholder="이름" onchange="updateCustomerInfo('name', this.value)" />
+                                            <input type="tel" id="customerPhone" placeholder="전화" onchange="updateCustomerInfo('phone', this.value)" />
+                                            <input type="email" id="customerEmail" placeholder="이메일" onchange="updateCustomerInfo('email', this.value)" />
+                                            <textarea id="customerAddress" placeholder="주소" rows="2" onchange="updateCustomerInfo('address', this.value)"></textarea>
+                                            <button class="btn-primary" style="width: 100%;" onclick="placeOrder()">주문하기</button>button>
+                            </div>div>
+                </div>div>
+        
+                <!-- 은행 정보 -->
+                <div class="card" style="background: #dbeafe; border: 1px solid #3b82f6;">
+                            <div class="card-title" style="color: #1e40af;">🏦 台灣銀行</div>div>
+                            <div style="font-size: 0.8rem; color: #1e40af; line-height: 1.6;">
+                                            <p><span style="font-weight: bold;">銀行:</span>span> <span id="bankName">-</span>span></p>
+                                            <p><span style="font-weight: bold;">帳號:</span>span> <span id="bankAccount">-</span>span></p>
+                                            <p><span style="font-weight: bold;">戶名:</span>span> <span id="accountName">-</span>span></p>
+                            </div>div>
+                </div>div>
+        </div>div>
+    
+        <footer class="footer">
+                <p>&copy; 2026 THEKUMEE. All rights reserved.</p>
+        </footer>footer>
+    
+        <!-- Firebase SDK -->
+        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+    
+        <script>
+                    // Firebase 설정
+                    const firebaseConfig = {
+                                    apiKey: "AIzaSyBLxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                    authDomain: "thekumee-9c172.firebaseapp.com",
+                                    databaseURL: "https://thekumee-9c172-default-rtdb.asia-southeast1.firebasedatabase.app",
+                                    projectId: "thekumee-9c172",
+                                    storageBucket: "thekumee-9c172.appspot.com",
+                                    messagingSenderId: "162040568294",
+                                    appId: "1:162040568294:web:xxxxxxxxxxxxxxxxxxxxxxxx"
+                    };
 
-        @media (max-width: 640px) {
-            .nav-content {
-                flex-wrap: wrap;
-            }
-            
-            .nav-controls {
-                width: 100%;
-                order: 3;
-                margin-top: 0.5rem;
-                gap: 0.5rem;
-            }
-            
-            .language-buttons {
-                border-right: none;
-                border-bottom: 1px solid #e2e8f0;
-                padding-right: 0;
-                padding-bottom: 0.5rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="app"></div>
+                    // Firebase 초기화
+                    firebase.initializeApp(firebaseConfig);
+                    const db = firebase.database();
 
-    <script>
-        const translations = {
-            'zh-TW': {
-                shopping: '購物',
-                admin: '管理',
-                logout: '登出',
-                selectProducts: '選購商品',
-                noProducts: '目前沒有商品',
-                cart: '購物車',
-                emptyCart: '購物車是空的',
-                total: '總計',
-                orderInfo: '訂單信息',
-                submitOrder: '提交訂單',
-                Taiwan: '台灣帳戶',
-                bank: '銀行',
-                account: '帳戶',
-                accountName: '戶名',
-                adminPanel: '管理後台',
-                password: '管理員密碼',
-                login: '登入',
-                back: '返回',
-                products: '商品',
-                orders: '訂單',
-                settings: '設置',
-                addProduct: '新增商品',
-                productName: '商品名稱 *',
-                category: '分類',
-                price: '價格 (NT$) *',
-                stock: '庫存數量 *',
-                description: '商品描述',
-                uploadPhoto: '📸 上傳商品照片',
-                add: '新增商品',
-                delete: '刪除',
-                deleteConfirm: '確定要刪除此商品嗎？',
-                orderRecords: '訂單記錄',
-                exportExcel: '匯出 Excel',
-                noOrders: '暫無訂單',
-                systemSettings: '系統設置',
-                modifyInfo: '修改台灣銀行帳戶信息、管理員密碼和網站HTML',
-                bankName: '銀行名稱',
-                accountNumber: '帳戶號碼',
-                accountHolder: '戶名',
-                adminPassword: '管理員密碼',
-                saveSettings: '保存設置',
-                orderSubmitted: '訂單已提交',
-                name: '名稱 *',
-                phone: '電話 *',
-                email: '郵箱 *',
-                address: '配送地址 *',
-                addToCart: '加入',
-                quantity: '數量',
-                errorFillAll: '請填寫所有必需字段',
-                errorEmptyCart: '購物車是空的',
-                errorNoOrders: '沒有訂單數據',
-                copyright: '© 2026 THEKUMEE 訂單系統',
-                wrongPassword: '密碼錯誤',
-                cancelOrder: '取消訂單',
-                cancelConfirm: '確定要取消此訂單嗎？',
-                outOfStock: '庫存不足'
-            },
-            'ko': {
-                shopping: '쇼핑',
-                admin: '관리',
-                logout: '로그아웃',
-                selectProducts: '상품 선택',
-                noProducts: '현재 상품이 없습니다',
-                cart: '장바구니',
-                emptyCart: '장바구니가 비어있습니다',
-                total: '합계',
-                orderInfo: '주문 정보',
-                submitOrder: '주문 제출',
-                Taiwan: '대만 계좌',
-                bank: '은행',
-                account: '계좌',
-                accountName: '예금주',
-                adminPanel: '관리자 패널',
-                password: '관리자 비밀번호',
-                login: '로그인',
-                back: '돌아가기',
-                products: '상품',
-                orders: '주문',
-                settings: '설정',
-                addProduct: '상품 추가',
-                productName: '상품명 *',
-                category: '카테고리',
-                price: '가격 (NT$) *',
-                stock: '재고 수량 *',
-                description: '상품 설명',
-                uploadPhoto: '📸 상품 사진 업로드',
-                add: '상품 추가',
-                delete: '삭제',
-                deleteConfirm: '이 상품을 삭제하시겠습니까?',
-                orderRecords: '주문 기록',
-                exportExcel: 'Excel 내보내기',
-                noOrders: '주문이 없습니다',
-                systemSettings: '시스템 설정',
-                modifyInfo: '대만 계좌 정보, 관리자 비밀번호 및 웹사이트 HTML 수정',
-                bankName: '은행 이름',
-                accountNumber: '계좌 번호',
-                accountHolder: '예금주명',
-                adminPassword: '관리자 비밀번호',
-                saveSettings: '설정 저장',
-                orderSubmitted: '주문이 제출되었습니다',
-                name: '이름 *',
-                phone: '전화 *',
-                email: '이메일 *',
-                address: '배송 주소 *',
-                addToCart: '추가',
-                quantity: '수량',
-                errorFillAll: '모든 필수 항목을 입력하세요',
-                errorEmptyCart: '장바구니가 비어있습니다',
-                errorNoOrders: '주문 데이터가 없습니다',
-                copyright: '© 2026 THEKUMEE 주문 시스템',
-                wrongPassword: '비밀번호가 잘못되었습니다',
-                cancelOrder: '주문 취소',
-                cancelConfirm: '이 주문을 취소하시겠습니까?',
-                outOfStock: '재고 부족'
-            }
-        };
+                    // 상태 관리
+                    let state = {
+                                    products: {},
+                                    cart: {},
+                                    customerInfo: { name: '', phone: '', email: '', address: '' },
+                                    bankSettings: { bankName: '', bankAccount: '', accountName: '' }
+                    };
 
-        let currentLang = localStorage.getItem('thekumee_lang') || 'zh-TW';
-
-        function t(key) {
-            return translations[currentLang][key] || key;
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('thekumee_lang', lang);
-            render();
-        }
-
-        const defaultSettings = {
-            bankName: '國泰世華銀行',
-            bankAccount: '0123456789',
-            accountName: 'THEKUMEE',
-            adminPassword: 'thekumee2026'
-        };
-
-        const settings = {
-            bankName: localStorage.getItem('bankName') || defaultSettings.bankName,
-            bankAccount: localStorage.getItem('bankAccount') || defaultSettings.bankAccount,
-            accountName: localStorage.getItem('accountName') || defaultSettings.accountName,
-            adminPassword: localStorage.getItem('adminPassword') || defaultSettings.adminPassword
-        };
-
-        const state = {
-            activeTab: 'customer',
-            isAdminLoggedIn: false,
-            adminMode: 'products',
-            products: JSON.parse(localStorage.getItem('thekumee_products') || '[]'),
-            orders: JSON.parse(localStorage.getItem('thekumee_orders') || '[]'),
-            cart: [],
-            customerInfo: { name: '', phone: '', email: '', address: '' },
-            orderPlaced: false,
-            orderNumber: '',
-            newProduct: { name: '', category: '', price: '', quantity: '', description: '', image: '' }
-        };
-
-        function saveSettings() {
-            localStorage.setItem('bankName', settings.bankName);
-            localStorage.setItem('bankAccount', settings.bankAccount);
-            localStorage.setItem('accountName', settings.accountName);
-            localStorage.setItem('adminPassword', settings.adminPassword);
-        }
-
-        function saveProducts() {
-            localStorage.setItem('thekumee_products', JSON.stringify(state.products));
-        }
-
-        function saveOrders() {
-            localStorage.setItem('thekumee_orders', JSON.stringify(state.orders));
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    state.newProduct.image = e.target.result;
-                    const preview = document.getElementById('imagePreview');
-                    if (preview) {
-                        preview.src = e.target.result;
-                        preview.classList.add('show');
+                    // 초기화
+                    function init() {
+                                    loadProducts();
+                                    loadSettings();
+                                    setupRealtimeListeners();
                     }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
 
-        function addProduct() {
-            if (!state.newProduct.name || !state.newProduct.price || !state.newProduct.quantity) {
-                alert(t('errorFillAll'));
-                return;
-            }
-            state.products.push({
-                ...state.newProduct,
-                id: Date.now().toString()
-            });
-            saveProducts();
-            state.newProduct = { name: '', category: '', price: '', quantity: '', description: '', image: '' };
-            render();
-        }
+                    // 실시간 리스너 설정
+                    function setupRealtimeListeners() {
+                                    // 상품 변경 감지
+                                    db.ref('products').on('value', (snapshot) => {
+                                                        const data = snapshot.val();
+                                                        if (data) {
+                                                                                state.products = data;
+                                                                                renderProducts();
+                                                                                renderAdminProducts();
+                                                        }
+                                    });
 
-        function deleteProduct(id) {
-            if (confirm(t('deleteConfirm'))) {
-                state.products = state.products.filter(p => p.id !== id);
-                saveProducts();
-                render();
-            }
-        }
+                                    // 설정 변경 감지
+                                    db.ref('settings').on('value', (snapshot) => {
+                                                        const data = snapshot.val();
+                                                        if (data) {
+                                                                                state.bankSettings = data;
+                                                                                updateBankDisplay();
+                                                        }
+                                    });
+                    }
 
-        function cancelOrder(orderNumber) {
-            if (confirm(t('cancelConfirm'))) {
-                const order = state.orders.find(o => o.orderNumber === orderNumber);
-                if (order) {
-                    order.items.forEach(item => {
-                        const product = state.products.find(p => p.id === item.id);
-                        if (product) {
-                            product.quantity = parseInt(product.quantity) + item.cartQuantity;
-                        }
-                    });
-                    saveProducts();
-                }
-                state.orders = state.orders.filter(o => o.orderNumber !== orderNumber);
-                saveOrders();
-                render();
-            }
-        }
+                    // 상품 로드
+                    function loadProducts() {
+                                    db.ref('products').once('value', (snapshot) => {
+                                                        const data = snapshot.val() || {};
+                                                        state.products = data;
+                                                        renderProducts();
+                                                        renderAdminProducts();
+                                    });
+                    }
 
-        function addToCart(product) {
-            const available = parseInt(product.quantity);
-            if (available <= 0) {
-                alert(t('outOfStock'));
-                return;
-            }
-            const existing = state.cart.find(item => item.id === product.id);
-            if (existing) {
-                const totalWanted = existing.cartQuantity + 1;
-                if (totalWanted <= available) {
-                    existing.cartQuantity = totalWanted;
-                } else {
-                    alert(t('outOfStock'));
-                }
-            } else {
-                state.cart.push({ ...product, cartQuantity: 1 });
-            }
-            render();
-        }
+                    // 설정 로드
+                    function loadSettings() {
+                                    db.ref('settings').once('value', (snapshot) => {
+                                                        const data = snapshot.val();
+                                                        if (data) {
+                                                                                state.bankSettings = data;
+                                                                                updateBankDisplay();
+                                                        }
+                                    });
+                    }
 
-        function removeFromCart(productId) {
-            state.cart = state.cart.filter(item => item.id !== productId);
-            render();
-        }
+                    // 상품 추가
+                    function addProduct() {
+                                    const name = document.getElementById('adminProductName').value.trim();
+                                    const price = parseFloat(document.getElementById('adminProductPrice').value) || 0;
+                                    const qty = parseInt(document.getElementById('adminProductQty').value) || 0;
 
-        function updateCartQuantity(productId, quantity) {
-            const item = state.cart.find(item => item.id === productId);
-            if (item) {
-                const product = state.products.find(p => p.id === productId);
-                const available = parseInt(product?.quantity || 0);
-                const qty = Math.max(1, Math.min(parseInt(quantity) || 1, available));
-                item.cartQuantity = qty;
-            }
-            render();
-        }
+                                    if (!name || price <= 0 || qty <= 0) {
+                                                        alert('모든 항목을 올바르게 입력하세요');
+                                                        return;
+                                    }
 
-        function placeOrder() {
-            if (!state.customerInfo.name || !state.customerInfo.phone || !state.customerInfo.email || !state.customerInfo.address) {
-                alert(t('errorFillAll'));
-                return;
-            }
-            if (state.cart.length === 0) {
-                alert(t('errorEmptyCart'));
-                return;
-            }
+                                    const productId = Date.now().toString();
+                                    db.ref(`products/${productId}`).set({
+                                                        name,
+                                                        price,
+                                                        quantity: qty,
+                                                        id: productId,
+                                                        createdAt: new Date().toISOString()
+                                    }).then(() => {
+                                                        document.getElementById('adminProductName').value = '';
+                                                        document.getElementById('adminProductPrice').value = '';
+                                                        document.getElementById('adminProductQty').value = '';
+                                    }).catch(error => console.error('Error adding product:', error));
+                    }
 
-            state.cart.forEach(item => {
-                const product = state.products.find(p => p.id === item.id);
-                if (product) {
-                    product.quantity = parseInt(product.quantity) - item.cartQuantity;
-                }
-            });
-            saveProducts();
+                    // 상품 렌더링
+                    function renderProducts() {
+                                    const container = document.getElementById('productsList');
+                                    if (!state.products || Object.keys(state.products).length === 0) {
+                                                        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">상품이 없습니다</div>';
+                                                        return;
+                                    }
 
-            const newOrder = {
-                orderNumber: 'TK' + Date.now().toString().slice(-10),
-                customerInfo: { ...state.customerInfo },
-                items: [...state.cart],
-                total: state.cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
-                date: new Date().toISOString()
-            };
-            state.orders.push(newOrder);
-            saveOrders();
-            state.orderNumber = newOrder.orderNumber;
-            state.orderPlaced = true;
-            state.cart = [];
-            state.customerInfo = { name: '', phone: '', email: '', address: '' };
-            setTimeout(() => {
-                state.orderPlaced = false;
-                render();
-            }, 5000);
-            render();
-        }
+                                    container.innerHTML = Object.values(state.products).map(product => `
+                                                    <div class="product-card">
+                                                                        <div class="product-name">${product.name}</div>
+                                                                                            <div class="product-price">NT$${parseFloat(product.price).toFixed(2)}</div>
+                                                                                                                <div class="product-qty">재고: ${product.quantity}개</div>
+                                                                                                                                    <input type="number" min="1" max="${product.quantity}" value="1" id="qty-${product.id}" style="width: 100%; margin: 0.5rem 0;" />
+                                                                                                                                                        <button class="btn-primary" style="width: 100%;" onclick="addToCart('${product.id}', '${product.name}', ${product.price})">장바구니</button>
+                                                                                                                                                                        </div>
+                                                                                                                                                                                    `).join('');
+                    }
 
-        function exportToExcel() {
-            if (state.orders.length === 0) {
-                alert(t('errorNoOrders'));
-                return;
-            }
-            let csv = '訂單號,客戶名稱,電話,郵箱,地址,商品名稱,價格,數量,小計,訂單日期\n';
-            state.orders.forEach(order => {
-                order.items.forEach(item => {
-                    const row = [
-                        order.orderNumber,
-                        order.customerInfo.name,
-                        order.customerInfo.phone,
-                        order.customerInfo.email,
-                        order.customerInfo.address,
-                        item.name,
-                        'NT$' + parseFloat(item.price).toFixed(0),
-                        item.cartQuantity,
-                        'NT$' + (item.price * item.cartQuantity).toFixed(0),
-                        new Date(order.date).toLocaleString('zh-TW')
-                    ];
-                    csv += row.map(cell => '"' + cell + '"').join(',') + '\n';
-                });
-            });
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'THEKUMEE訂單_' + new Date().toLocaleDateString('zh-TW') + '.csv';
-            link.click();
-        }
+                    // 관리자 상품 목록 렌더링
+                    function renderAdminProducts() {
+                                    const container = document.getElementById('adminProductsList');
+                                    if (!state.products || Object.keys(state.products).length === 0) {
+                                                        container.innerHTML = '<div style="text-align: center; color: #666;">등록된 상품이 없습니다</div>';
+                                                        return;
+                                    }
 
-        function handleAdminLogin(password) {
-            if (password === settings.adminPassword) {
-                state.isAdminLoggedIn = true;
-                render();
-            } else {
-                alert(t('wrongPassword'));
-            }
-        }
+                                    container.innerHTML = Object.values(state.products).map(product => `
+                                                    <div style="padding: 0.5rem; border-bottom: 1px solid #fcd34d; font-size: 0.85rem;">
+                                                                        <strong>${product.name}</strong> - NT$${product.price} (${product.quantity}개)
+                                                                                            <button class="btn-danger" style="float: right; padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="deleteProduct('${product.id}')">삭제</button>
+                                                                                                            </div>
+                                                                                                                        `).join('');
+                    }
 
-        function handleAdminLogout() {
-            state.isAdminLoggedIn = false;
-            state.adminMode = 'products';
-            render();
-        }
+                    // 상품 삭제
+                    function deleteProduct(productId) {
+                                    if (!confirm('정말 삭제하시겠습니까?')) return;
+                                    db.ref(`products/${productId}`).remove().catch(error => console.error('Error deleting product:', error));
+                    }
 
-        function updateSettings() {
-            settings.bankName = document.getElementById('bankName')?.value || settings.bankName;
-            settings.bankAccount = document.getElementById('bankAccount')?.value || settings.bankAccount;
-            settings.accountName = document.getElementById('accountName')?.value || settings.accountName;
-            settings.adminPassword = document.getElementById('adminPassword')?.value || settings.adminPassword;
-            saveSettings();
-            alert(t('saveSettings') + '!');
-            render();
-        }
+                    // 장바구니에 추가
+                    function addToCart(productId, productName, price) {
+                                    const qtyInput = document.getElementById(`qty-${productId}`);
+                                    const qty = parseInt(qtyInput.value) || 1;
 
-        const cartTotal = state.cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0);
+                                    if (qty < 1) {
+                                                        alert('수량을 입력하세요');
+                                                        return;
+                                    }
 
-        function render() {
-            const app = document.getElementById('app');
+                                    if (!state.cart[productId]) {
+                                                        state.cart[productId] = { name: productName, price, cartQuantity: 0 };
+                                    }
+                                    state.cart[productId].cartQuantity += qty;
+                                    renderCart();
+                    }
 
-            if (state.activeTab === 'admin' && !state.isAdminLoggedIn) {
-                app.innerHTML = `
-                    <div class="login-container">
-                        <div class="login-box">
-                            <h2>${t('adminPanel')}</h2>
-                            <input type="password" id="adminPass" placeholder="${t('password')}" />
-                            <div class="login-buttons">
-                                <button class="btn-secondary" onclick="state.activeTab='customer'; render();">${t('back')}</button>
-                                <button class="btn-primary" onclick="handleAdminLogin(document.getElementById('adminPass').value)">${t('login')}</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
+                    // 장바구니 업데이트
+                    function updateCartQuantity(productId, newQty) {
+                                    const qty = parseInt(newQty) || 0;
+                                    if (qty <= 0) {
+                                                        removeFromCart(productId);
+                                    } else {
+                                                        state.cart[productId].cartQuantity = qty;
+                                                        renderCart();
+                                    }
+                    }
 
-            let html = `
-                <nav>
-                    <div class="nav-content">
-                        <div class="nav-brand">
-                            <div class="nav-logo">K</div>
-                            <div class="nav-title">THEKUMEE</div>
-                        </div>
-                        <div class="nav-controls">
-                            <div class="language-buttons">
-                                <button class="lang-btn ${currentLang === 'zh-TW' ? 'active' : ''}" onclick="setLanguage('zh-TW')">TW</button>
-                                <button class="lang-btn ${currentLang === 'ko' ? 'active' : ''}" onclick="setLanguage('ko')">KR</button>
-                            </div>
-                            <div class="nav-buttons">
-                                <button class="btn-nav ${state.activeTab === 'customer' ? 'active' : ''}" onclick="state.activeTab='customer'; render();">${t('shopping')}</button>
-                                <button class="btn-nav ${state.activeTab === 'admin' ? 'active' : ''}" onclick="state.activeTab='admin'; render();">${t('admin')}</button>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                    // 장바구니에서 제거
+                    function removeFromCart(productId) {
+                                    delete state.cart[productId];
+                                    renderCart();
+                    }
 
-                <main class="container">
-            `;
+                    // 장바구니 렌더링
+                    function renderCart() {
+                                    const cartItems = document.getElementById('cartItems');
+                                    const cartTotal = document.getElementById('cartTotal');
 
-            if (state.activeTab === 'admin' && state.isAdminLoggedIn) {
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h2 class="section-title">${t('adminPanel')}</h2>
-                        <button class="btn-danger" onclick="handleAdminLogout()">${t('logout')}</button>
-                    </div>
+                                    if (!state.cart || Object.keys(state.cart).length === 0) {
+                                                        cartItems.innerHTML = '<div style="text-align: center; padding: 1rem;">장바구니가 비어있습니다</div>';
+                                                        cartTotal.textContent = '0.00';
+                                                        document.getElementById('cartCount').textContent = '0';
+                                                        return;
+                                    }
 
-                    <div class="admin-tabs">
-                        <button class="admin-tab ${state.adminMode === 'products' ? 'active' : ''}" onclick="state.adminMode='products'; render();">${t('products')} (${state.products.length})</button>
-                        <button class="admin-tab ${state.adminMode === 'orders' ? 'active' : ''}" onclick="state.adminMode='orders'; render();">${t('orders')} (${state.orders.length})</button>
-                        <button class="admin-tab ${state.adminMode === 'settings' ? 'active' : ''}" onclick="state.adminMode='settings'; render();">${t('settings')}</button>
-                    </div>
+                                    let total = 0;
+                                    let itemCount = 0;
+                                    cartItems.innerHTML = Object.entries(state.cart).map(([id, item]) => {
+                                                        const itemTotal = item.price * item.cartQuantity;
+                                                        total += itemTotal;
+                                                        itemCount += item.cartQuantity;
+                                                        return `
+                                                                            <div class="cart-item">
+                                                                                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                                                                                                                <strong>${item.name}</strong>
+                                                                                                                                                            <button onclick="removeFromCart('${id}')" style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: bold; padding: 0;">✕</button>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                                            <div style="color: #ec4899; font-weight: bold; margin-bottom: 0.25rem;">NT$${parseFloat(item.price).toFixed(2)}</div>
+                                                                                                                                                                                                                                    <input type="number" min="1" value="${item.cartQuantity}" onchange="updateCartQuantity('${id}', this.value)" style="width: 100%; padding: 0.3rem; font-size: 0.75rem;" />
+                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                        `;
+                                    }).join('');
 
-                    ${state.adminMode === 'products' ? `
-                        <div class="card">
-                            <h3 class="card-title">${t('addProduct')}</h3>
-                            <input type="text" placeholder="${t('productName')}" value="${state.newProduct.name}" onchange="state.newProduct.name=this.value" />
-                            <input type="text" placeholder="${t('category')}" value="${state.newProduct.category}" onchange="state.newProduct.category=this.value" />
-                            <input type="number" placeholder="${t('price')}" value="${state.newProduct.price}" onchange="state.newProduct.price=this.value" />
-                            <input type="number" placeholder="${t('stock')}" value="${state.newProduct.quantity}" onchange="state.newProduct.quantity=this.value" />
-                            <textarea placeholder="${t('description')}" onchange="state.newProduct.description=this.value" rows="2">${state.newProduct.description}</textarea>
-                            
-                            <label style="font-weight: bold; font-size: 0.875rem; color: #475569; display: block; margin-bottom: 0.5rem;">${t('uploadPhoto')}</label>
-                            <input type="file" accept="image/*" onchange="handleImageUpload(event)" />
-                            ${state.newProduct.image ? `<img id="imagePreview" src="${state.newProduct.image}" class="image-preview show" />` : `<img id="imagePreview" class="image-preview" />`}
-                            
-                            <button class="btn-primary" style="width: 100%;" onclick="addProduct()">${t('add')}</button>
-                        </div>
+                                    cartTotal.textContent = total.toFixed(2);
+                                    document.getElementById('cartCount').textContent = itemCount;
+                    }
 
-                        <div class="product-grid">
-                            ${state.products.map(p => `
-                                <div class="product-card">
-                                    ${p.image ? `<img src="${p.image}" class="product-image" />` : `<div style="width:100%;height:120px;background:#f1f5f9;border-radius:0.4rem;margin-bottom:0.5rem;"></div>`}
-                                    <div class="product-name">${p.name}</div>
-                                    <div style="font-size: 0.7rem; color: #64748b; margin-bottom: 0.25rem;">${p.category}</div>
-                                    <div class="product-price">NT$${parseFloat(p.price).toFixed(0)}</div>
-                                    <div class="product-stock">📦 ${p.quantity}</div>
-                                    <button class="btn-danger" style="width: 100%; margin-top: 0.5rem;" onclick="deleteProduct('${p.id}')">${t('delete')}</button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : state.adminMode === 'orders' ? `
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <h3 class="card-title">${t('orderRecords')}</h3>
-                            <button class="btn-success" onclick="exportToExcel()">${t('exportExcel')}</button>
-                        </div>
+                    // 고객 정보 업데이트
+                    function updateCustomerInfo(field, value) {
+                                    state.customerInfo[field] = value;
+                    }
 
-                        ${state.orders.length === 0 ? `
-                            <div class="card" style="text-align: center; color: #64748b;">
-                                <p>${t('noOrders')}</p>
-                            </div>
-                        ` : `
-                            <div class="card">
-                                ${state.orders.map(o => `
-                                    <div class="order-row">
-                                        <div class="order-info">
-                                            <div style="font-weight: bold; color: #2563eb; margin-bottom: 0.25rem;">${o.orderNumber}</div>
-                                            <div style="color: #475569; font-size: 0.8rem;">
-                                                👤 ${o.customerInfo.name} | 📞 ${o.customerInfo.phone}<br>
-                                                📦 ${o.items.map(item => item.name + '(x' + item.cartQuantity + ')').join(', ')}<br>
-                                                <span style="font-weight: bold; color: #ec4899;">💰 NT$${o.total.toFixed(0)}</span>
-                                            </div>
-                                        </div>
-                                        <div class="order-actions">
-                                            <button class="btn-danger" onclick="cancelOrder('${o.orderNumber}')" style="padding: 0.3rem 0.5rem;">${t('cancelOrder')}</button>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `}
-                    ` : `
-                        <div class="card">
-                            <h3 class="card-title">${t('systemSettings')}</h3>
-                            <div class="alert alert-info">
-                                ${t('modifyInfo')}
-                            </div>
-                            <div class="settings-form">
-                                <div class="form-group">
-                                    <label>${t('bankName')}</label>
-                                    <input type="text" id="bankName" value="${settings.bankName}" />
-                                </div>
-                                <div class="form-group">
-                                    <label>${t('accountNumber')}</label>
-                                    <input type="text" id="bankAccount" value="${settings.bankAccount}" />
-                                </div>
-                                <div class="form-group">
-                                    <label>${t('accountHolder')}</label>
-                                    <input type="text" id="accountName" value="${settings.accountName}" />
-                                </div>
-                                <div class="form-group">
-                                    <label>${t('adminPassword')}</label>
-                                    <input type="password" id="adminPassword" value="${settings.adminPassword}" />
-                                </div>
-                                <button class="btn-primary" style="width: 100%;" onclick="updateSettings()">${t('saveSettings')}</button>
-                            </div>
-                        </div>
-                    `}
-                `;
-            } else {
-                const cartTotalAmount = state.cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0);
-                html += `
-                    ${state.orderPlaced ? `
-                        <div class="alert alert-success">
-                            ${t('orderSubmitted')}! ${t('orderRecords')}: <span style="font-family: monospace; font-weight: bold;">${state.orderNumber}</span>
-                        </div>
-                    ` : ''}
+                    // 주문하기
+                    function placeOrder() {
+                                    if (Object.keys(state.cart).length === 0) {
+                                                        alert('장바구니에 상품을 추가해주세요');
+                                                        return;
+                                    }
+                                    if (!state.customerInfo.name || !state.customerInfo.phone) {
+                                                        alert('이름과 전화번호를 입력해주세요');
+                                                        return;
+                                    }
 
-                    <div class="main-grid">
-                        <div>
-                            <h2 class="section-title">${t('selectProducts')}</h2>
-                            ${state.products.length === 0 ? `
-                                <div class="card" style="text-align: center; color: #64748b;">
-                                    <p>${t('noProducts')}</p>
-                                </div>
-                            ` : `
-                                <div class="product-grid">
-                                    ${state.products.map(p => {
-                                        const stock = parseInt(p.quantity);
-                                        const outOfStock = stock <= 0;
-                                        return `
-                                        <div class="product-card">
-                                            ${p.image ? `<img src="${p.image}" class="product-image" />` : `<div style="width:100%;height:120px;background:#f1f5f9;border-radius:0.4rem;margin-bottom:0.5rem;"></div>`}
-                                            <div class="product-name">${p.name}</div>
-                                            ${p.category ? `<div style="font-size: 0.7rem; color: #64748b; margin-bottom: 0.25rem;">${p.category}</div>` : ''}
-                                            <div class="product-price">NT$${parseFloat(p.price).toFixed(0)}</div>
-                                            <div class="product-stock">📦 ${stock}</div>
-                                            ${outOfStock ? `<div class="stock-warning">${t('outOfStock')}</div>` : ''}
-                                            <button class="btn-primary" style="width: 100%; padding: 0.4rem; margin-top: 0.5rem; font-size: 0.75rem; opacity: ${outOfStock ? '0.5' : '1'};" onclick="addToCart({id: '${p.id}', name: '${p.name}', price: ${p.price}, quantity: '${p.quantity}', image: '${p.image}', cartQuantity: 1})" ${outOfStock ? 'disabled' : ''}>${t('addToCart')}</button>
-                                        </div>
-                                        `;
-                                    }).join('')}
-                                </div>
-                            `}
-                        </div>
+                                    const orderId = Date.now().toString();
+                                    const order = {
+                                                        id: orderId,
+                                                        customerInfo: state.customerInfo,
+                                                        items: state.cart,
+                                                        total: Object.values(state.cart).reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
+                                                        status: 'pending',
+                                                        createdAt: new Date().toISOString()
+                                    };
 
-                        <div class="sidebar">
-                            <div class="card">
-                                <h3 class="card-title">${t('cart')}</h3>
-                                ${state.cart.length === 0 ? `
-                                    <div class="cart-empty">${t('emptyCart')}</div>
-                                ` : `
-                                    ${state.cart.map(item => {
-                                        const product = state.products.find(p => p.id === item.id);
-                                        const available = parseInt(product?.quantity || 0);
-                                        return `
-                                        <div class="cart-item">
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <strong>${item.name}</strong>
-                                                <button onclick="removeFromCart('${item.id}')" style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: bold; padding: 0; font-size: 0.8rem;">✕</button>
-                                            </div>
-                                            <div style="color: #ec4899; font-weight: bold; margin-bottom: 0.25rem;">NT$${parseFloat(item.price).toFixed(0)}</div>
-                                            <input type="number" min="1" max="${available}" value="${item.cartQuantity}" onchange="updateCartQuantity('${item.id}', this.value)" style="width: 100%; padding: 0.3rem; font-size: 0.75rem;" />
-                                        </div>
-                                        `;
-                                    }).join('')}
-                                    <div class="cart-total">
-                                        <span>${t('total')}:</span>
-                                        <span>NT$${cartTotalAmount.toFixed(0)}</span>
-                                    </div>
-                                `}
-                            </div>
+                                    db.ref(`orders/${orderId}`).set(order).then(() => {
+                                                        alert('주문이 완료되었습니다! 주문번호: ' + orderId);
+                                                        state.cart = {};
+                                                        renderCart();
+                                                        document.getElementById('customerName').value = '';
+                                                        document.getElementById('customerPhone').value = '';
+                                                        document.getElementById('customerEmail').value = '';
+                                                        document.getElementById('customerAddress').value = '';
+                                    }).catch(error => {
+                                                        alert('주문 처리 중 오류가 발생했습니다: ' + error.message);
+                                    });
+                    }
 
-                            <div class="card">
-                                <h3 class="card-title">${t('orderInfo')}</h3>
-                                <input type="text" placeholder="${t('name')}" value="${state.customerInfo.name}" onchange="state.customerInfo.name=this.value" />
-                                <input type="tel" placeholder="${t('phone')}" value="${state.customerInfo.phone}" onchange="state.customerInfo.phone=this.value" />
-                                <input type="email" placeholder="${t('email')}" value="${state.customerInfo.email}" onchange="state.customerInfo.email=this.value" />
-                                <textarea placeholder="${t('address')}" onchange="state.customerInfo.address=this.value" rows="2">${state.customerInfo.address}</textarea>
-                                <button class="btn-primary" style="width: 100%; padding: 0.75rem;" onclick="placeOrder()">${t('submitOrder')}</button>
-                            </div>
+                    // 은행 정보 표시
+                    function updateBankDisplay() {
+                                    document.getElementById('bankName').textContent = state.bankSettings.bankName || '-';
+                                    document.getElementById('bankAccount').textContent = state.bankSettings.bankAccount || '-';
+                                    document.getElementById('accountName').textContent = state.bankSettings.accountName || '-';
+                    }
 
-                            <div class="card" style="background: #dbeafe; border: 1px solid #3b82f6;">
-                                <h3 class="card-title" style="color: #1e40af;">${t('Taiwan')}</h3>
-                                <div style="font-size: 0.8rem; color: #1e40af; line-height: 1.6;">
-                                    <p><span style="font-weight: bold;">${t('bank')}:</span> ${settings.bankName}</p>
-                                    <p><span style="font-weight: bold;">${t('account')}:</span> ${settings.bankAccount}</p>
-                                    <p><span style="font-weight: bold;">${t('accountName')}:</span> ${settings.accountName}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            html += `
-                </main>
-
-                <footer class="footer">
-                    <p>${t('copyright')}</p>
-                </footer>
-            `;
-
-            app.innerHTML = html;
-        }
-
-        render();
-    </script>
-</body>
-</html>
+                    // 페이지 로드 시 초기화
+                    document.addEventListener('DOMContentLoaded', init);
+        </script>
+    </body>
+</html>html>
+        </script></p></p></span></span></h1>
+            </nav>
+    </body>
+        </style></title>
+    </head>
