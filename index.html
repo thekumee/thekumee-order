@@ -2,175 +2,148 @@
 <html lang="zh-TW">
     <head>
             <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>THEKUMEE 訂單系統</title>
         <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-                    html, body { width: 100%; height: 100%; overflow-x: hidden; }
-                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #ffffff 0%, #f8fafc, #e2e8f0); color: #1e293b; font-size: 14px; }
-                    .container { max-width: 100%; padding: 0.75rem; margin: 0 auto; }
-                    nav { background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-                    .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 1rem; max-width: 1280px; margin: 0 auto; gap: 1rem; }
-                    .nav-brand { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-                    .nav-logo { font-size: 1.5rem; }
-                    h1 { font-size: 1.25rem; font-weight: bold; margin: 0; }
-                    .cart-count { background: #dc2626; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
-                    .admin-section { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-                    .section-title { font-weight: bold; font-size: 1rem; margin-bottom: 0.75rem; color: #78350f; }
-                    .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
-                    input, textarea, select { padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.875rem; }
-                    button { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.875rem; }
-                    .btn-primary { background: #3b82f6; color: white; }
-                    .btn-primary:hover { background: #2563eb; }
-                    .btn-success { background: #10b981; color: white; }
-                    .btn-success:hover { background: #059669; }
-                    .btn-danger { background: #dc2626; color: white; }
-                    .btn-danger:hover { background: #b91c1c; }
-                    .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-                    .card-title { font-weight: bold; font-size: 1rem; margin-bottom: 0.75rem; }
-                    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
-                    .product-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; background: white; }
-                    .product-name { font-weight: bold; margin-bottom: 0.5rem; }
-                    .product-price { color: #ec4899; font-weight: bold; margin: 0.5rem 0; }
-                    .product-qty { margin: 0.5rem 0; }
-                    .cart-item { border: 1px solid #e2e8f0; border-radius: 4px; padding: 0.75rem; margin: 0.5rem 0; background: #f9fafb; }
-                    .cart-total { background: #dbeafe; border: 2px solid #3b82f6; border-radius: 4px; padding: 1rem; margin: 1rem 0; font-weight: bold; color: #1e40af; }
-                    .footer { text-align: center; padding: 1rem; color: #64748b; font-size: 0.75rem; }
-                    .hidden { display: none; }
-                    .loading { text-align: center; padding: 1rem; }
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; }
+                    nav { background: white; border-bottom: 1px solid #ddd; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+                    .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+                    .section { background: white; border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
+                    .section-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; color: #333; }
+                    .form-group { margin-bottom: 1rem; }
+                    input, textarea, button { padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; width: 100%; }
+                    button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
+                    button:hover { background: #0056b3; }
+                    .btn-success { background: #28a745; }
+                    .btn-danger { background: #dc3545; }
+                    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+                    .card { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; background: white; }
+                    .product-item { border-left: 4px solid #007bff; padding-left: 1rem; margin: 0.5rem 0; }
+                    .cart-item { background: #f9f9f9; padding: 1rem; margin: 0.5rem 0; border-radius: 4px; }
+                    .bank-info { background: #e3f2fd; border: 1px solid #2196f3; padding: 1rem; border-radius: 4px; }
+                    .error { color: #dc3545; }
+                    .success { color: #28a745; }
+                    .loading { text-align: center; padding: 2rem; color: #666; }
                 </style>
     </head>
     <body>
             <nav>
-                        <div class="nav-content">
-                                        <div class="nav-brand">
-                                                            <div class="nav-logo">🛍️</div>div>
-                                                            <h1>THEKUMEE</h1>
-                                        </div>div>
-                                    <div class="cart-count" id="cartCount">0</div>div>
-                        </div>div>
+                        <h1>🛍️ THEKUMEE</h1>
+                    <div id="cartCount" style="background: #dc3545; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">0</div>div>
             </nav>
     
         <div class="container">
                 <!-- 관리자 섹션 -->
-                <div class="admin-section" id="adminPanel">
+                <div class="section" style="background: #fff3cd; border: 2px solid #ffc107;">
                             <div class="section-title">📦 상품 관리 (관리자)</div>div>
                             <div class="form-group">
                                             <input type="text" id="adminProductName" placeholder="상품명" />
-                                            <input type="number" id="adminProductPrice" placeholder="가격" />
-                                            <input type="number" id="adminProductQty" placeholder="수량" />
-                                            <button class="btn-success" onclick="addProduct()">상품 추가</button>button>
                             </div>div>
-                            <div id="adminProductsList" style="max-height: 200px; overflow-y: auto;"></div>div>
+                            <div class="form-group">
+                                            <input type="number" id="adminProductPrice" placeholder="가격" />
+                            </div>div>
+                            <div class="form-group">
+                                            <input type="number" id="adminProductQty" placeholder="수량" />
+                            </div>div>
+                            <button class="btn-success" onclick="addProduct()">상품 추가</button>button>
+                            <div id="adminProductsList" style="margin-top: 1rem; max-height: 200px; overflow-y: auto;"></div>div>
                 </div>div>
         
                 <!-- 상품 목록 -->
-                <div class="card">
-                            <div class="card-title">🛒 상품 목록</div>div>
-                            <div class="products-grid" id="productsList">
+                <div class="section">
+                            <div class="section-title">🛒 상품 목록</div>div>
+                            <div class="grid" id="productsList">
                                             <div class="loading">상품을 로딩 중입니다...</div>div>
                             </div>div>
                 </div>div>
         
                 <!-- 장바구니 -->
-                <div class="card">
-                            <div class="card-title">🛍️ 장바구니</div>div>
+                <div class="section">
+                            <div class="section-title">🛍️ 장바구니</div>div>
                             <div id="cartItems"></div>div>
-                            <div class="cart-total">
-                                            <span>총액:</span>
-                                            <span>NT$<span id="cartTotal">0.00</span></span>
+                            <div style="background: #e3f2fd; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+                                            <strong>총액: NT$<span id="cartTotal">0.00</span>span></strong>
                             </div>div>
                 </div>div>
         
                 <!-- 주문 정보 -->
-                <div class="card">
-                            <div class="card-title">📋 주문정보</div>div>
+                <div class="section">
+                            <div class="section-title">📋 주문정보</div>div>
                             <div class="form-group">
-                                            <input type="text" id="customerName" placeholder="이름" onchange="updateCustomerInfo('name', this.value)" />
-                                            <input type="tel" id="customerPhone" placeholder="전화" onchange="updateCustomerInfo('phone', this.value)" />
-                                            <input type="email" id="customerEmail" placeholder="이메일" onchange="updateCustomerInfo('email', this.value)" />
-                                            <textarea id="customerAddress" placeholder="주소" rows="2" onchange="updateCustomerInfo('address', this.value)"></textarea>
-                                            <button class="btn-primary" style="width: 100%;" onclick="placeOrder()">주문하기</button>button>
+                                            <input type="text" id="customerName" placeholder="이름" />
                             </div>div>
+                            <div class="form-group">
+                                            <input type="tel" id="customerPhone" placeholder="전화" />
+                            </div>div>
+                            <div class="form-group">
+                                            <input type="email" id="customerEmail" placeholder="이메일" />
+                            </div>div>
+                            <div class="form-group">
+                                            <textarea id="customerAddress" placeholder="주소" rows="3"></textarea>
+                            </div>div>
+                            <button style="background: #007bff;" onclick="placeOrder()">주문하기</button>button>
                 </div>div>
         
                 <!-- 은행 정보 -->
-                <div class="card" style="background: #dbeafe; border: 1px solid #3b82f6;">
-                            <div class="card-title" style="color: #1e40af;">🏦 台灣銀行</div>div>
-                            <div style="font-size: 0.8rem; color: #1e40af; line-height: 1.6;">
-                                            <p><span style="font-weight: bold;">銀行:</span>span> <span id="bankName">-</span>span></p>
-                                            <p><span style="font-weight: bold;">帳號:</span>span> <span id="bankAccount">-</span>span></p>
-                                            <p><span style="font-weight: bold;">戶名:</span>span> <span id="accountName">-</span>span></p>
-                            </div>div>
+                <div class="bank-info">
+                            <div class="section-title" style="color: #1976d2;">🏦 台灣銀行</div>div>
+                            <p><strong>銀行:</strong>strong> <span id="bankName">-</span>span></p>
+                            <p><strong>帳號:</strong> <span id="bankAccount">-</span>span></p>
+                            <p><strong>戶名:</strong> <span id="accountName">-</span>span></p>
                 </div>div>
         </div>div>
     
-        <footer class="footer">
-                <p>&copy; 2026 THEKUMEE. All rights reserved.</p>
-        </footer>footer>
-    
-        <!-- Firebase SDK -->
         <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
     
         <script>
-                    // Firebase 설정
                     const firebaseConfig = {
-                                    apiKey: "AIzaSyBLxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                    apiKey: "AIzaSyBLDa6TGPaVGvJf8bVj-_bGFYqt6qxF85A",
                                     authDomain: "thekumee-9c172.firebaseapp.com",
-                                    databaseURL: "https://thekumee-9c172-default-rtdb.asia-southeast1.firebasedatabase.app",
+                                    databaseURL: "https://thekumee-9c172-default-rtdb.firebaseio.com",
                                     projectId: "thekumee-9c172",
                                     storageBucket: "thekumee-9c172.appspot.com",
                                     messagingSenderId: "162040568294",
-                                    appId: "1:162040568294:web:xxxxxxxxxxxxxxxxxxxxxxxx"
+                                    appId: "1:162040568294:web:e9c3c5b3d8f4a2b1c6d7e8f9"
                     };
 
-                    // Firebase 초기화
                     firebase.initializeApp(firebaseConfig);
                     const db = firebase.database();
 
-                    // 상태 관리
                     let state = {
                                     products: {},
                                     cart: {},
-                                    customerInfo: { name: '', phone: '', email: '', address: '' },
-                                    bankSettings: { bankName: '', bankAccount: '', accountName: '' }
+                                    customerInfo: { name: '', phone: '', email: '', address: '' }
                     };
 
                     // 초기화
                     function init() {
                                     loadProducts();
                                     loadSettings();
-                                    setupRealtimeListeners();
+                                    setupListeners();
                     }
 
-                    // 실시간 리스너 설정
-                    function setupRealtimeListeners() {
-                                    // 상품 변경 감지
+                    // 실시간 리스너
+                    function setupListeners() {
                                     db.ref('products').on('value', (snapshot) => {
-                                                        const data = snapshot.val();
-                                                        if (data) {
-                                                                                state.products = data;
-                                                                                renderProducts();
-                                                                                renderAdminProducts();
-                                                        }
+                                                        state.products = snapshot.val() || {};
+                                                        renderProducts();
+                                                        renderAdminProducts();
                                     });
 
-                                    // 설정 변경 감지
                                     db.ref('settings').on('value', (snapshot) => {
-                                                        const data = snapshot.val();
-                                                        if (data) {
-                                                                                state.bankSettings = data;
-                                                                                updateBankDisplay();
-                                                        }
+                                                        const data = snapshot.val() || {};
+                                                        document.getElementById('bankName').textContent = data.bankName || '-';
+                                                        document.getElementById('bankAccount').textContent = data.bankAccount || '-';
+                                                        document.getElementById('accountName').textContent = data.accountName || '-';
                                     });
                     }
 
                     // 상품 로드
                     function loadProducts() {
                                     db.ref('products').once('value', (snapshot) => {
-                                                        const data = snapshot.val() || {};
-                                                        state.products = data;
+                                                        state.products = snapshot.val() || {};
                                                         renderProducts();
                                                         renderAdminProducts();
                                     });
@@ -179,11 +152,10 @@
                     // 설정 로드
                     function loadSettings() {
                                     db.ref('settings').once('value', (snapshot) => {
-                                                        const data = snapshot.val();
-                                                        if (data) {
-                                                                                state.bankSettings = data;
-                                                                                updateBankDisplay();
-                                                        }
+                                                        const data = snapshot.val() || {};
+                                                        document.getElementById('bankName').textContent = data.bankName || '-';
+                                                        document.getElementById('bankAccount').textContent = data.bankAccount || '-';
+                                                        document.getElementById('accountName').textContent = data.accountName || '-';
                                     });
                     }
 
@@ -194,7 +166,7 @@
                                     const qty = parseInt(document.getElementById('adminProductQty').value) || 0;
 
                                     if (!name || price <= 0 || qty <= 0) {
-                                                        alert('모든 항목을 올바르게 입력하세요');
+                                                        alert('모든 항목을 입력하세요');
                                                         return;
                                     }
 
@@ -209,7 +181,7 @@
                                                         document.getElementById('adminProductName').value = '';
                                                         document.getElementById('adminProductPrice').value = '';
                                                         document.getElementById('adminProductQty').value = '';
-                                    }).catch(error => console.error('Error adding product:', error));
+                                    }).catch(error => alert('오류: ' + error.message));
                     }
 
                     // 상품 렌더링
@@ -220,127 +192,113 @@
                                                         return;
                                     }
 
-                                    container.innerHTML = Object.values(state.products).map(product => `
-                                                    <div class="product-card">
-                                                                        <div class="product-name">${product.name}</div>
-                                                                                            <div class="product-price">NT$${parseFloat(product.price).toFixed(2)}</div>
-                                                                                                                <div class="product-qty">재고: ${product.quantity}개</div>
-                                                                                                                                    <input type="number" min="1" max="${product.quantity}" value="1" id="qty-${product.id}" style="width: 100%; margin: 0.5rem 0;" />
-                                                                                                                                                        <button class="btn-primary" style="width: 100%;" onclick="addToCart('${product.id}', '${product.name}', ${product.price})">장바구니</button>
+                                    container.innerHTML = Object.values(state.products).map(p => `
+                                                    <div class="card">
+                                                                        <div style="font-weight: bold; margin-bottom: 0.5rem;">${p.name}</div>
+                                                                                            <div style="color: #28a745; font-weight: bold; margin-bottom: 0.5rem;">NT$${parseFloat(p.price).toFixed(2)}</div>
+                                                                                                                <div style="font-size: 0.9rem; margin-bottom: 0.5rem;">재고: ${p.quantity}개</div>
+                                                                                                                                    <input type="number" id="qty-${p.id}" min="1" max="${p.quantity}" value="1" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;" />
+                                                                                                                                                        <button class="btn-success" style="margin: 0;" onclick="addToCart('${p.id}', '${p.name}', ${p.price})">장바구니</button>
                                                                                                                                                                         </div>
                                                                                                                                                                                     `).join('');
                     }
 
-                    // 관리자 상품 목록 렌더링
+                    // 관리자 상품 렌더링
                     function renderAdminProducts() {
                                     const container = document.getElementById('adminProductsList');
                                     if (!state.products || Object.keys(state.products).length === 0) {
-                                                        container.innerHTML = '<div style="text-align: center; color: #666;">등록된 상품이 없습니다</div>';
+                                                        container.innerHTML = '<div style="text-align: center; color: #666;">등록된 상품 없음</div>';
                                                         return;
                                     }
 
-                                    container.innerHTML = Object.values(state.products).map(product => `
-                                                    <div style="padding: 0.5rem; border-bottom: 1px solid #fcd34d; font-size: 0.85rem;">
-                                                                        <strong>${product.name}</strong> - NT$${product.price} (${product.quantity}개)
-                                                                                            <button class="btn-danger" style="float: right; padding: 0.25rem 0.5rem; font-size: 0.7rem;" onclick="deleteProduct('${product.id}')">삭제</button>
+                                    container.innerHTML = Object.values(state.products).map(p => `
+                                                    <div class="product-item">
+                                                                        <strong>${p.name}</strong> - NT$${p.price} (${p.quantity}개)
+                                                                                            <button class="btn-danger" style="width: auto; margin-left: 1rem;" onclick="deleteProduct('${p.id}')">삭제</button>
                                                                                                             </div>
                                                                                                                         `).join('');
                     }
 
                     // 상품 삭제
-                    function deleteProduct(productId) {
-                                    if (!confirm('정말 삭제하시겠습니까?')) return;
-                                    db.ref(`products/${productId}`).remove().catch(error => console.error('Error deleting product:', error));
+                    function deleteProduct(id) {
+                                    if (!confirm('삭제하시겠습니까?')) return;
+                                    db.ref(`products/${id}`).remove().catch(e => alert('오류: ' + e.message));
                     }
 
-                    // 장바구니에 추가
-                    function addToCart(productId, productName, price) {
-                                    const qtyInput = document.getElementById(`qty-${productId}`);
-                                    const qty = parseInt(qtyInput.value) || 1;
+                    // 장바구니 추가
+                    function addToCart(id, name, price) {
+                                    const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
+                                    if (qty < 1) { alert('수량을 입력하세요'); return; }
 
-                                    if (qty < 1) {
-                                                        alert('수량을 입력하세요');
-                                                        return;
-                                    }
-
-                                    if (!state.cart[productId]) {
-                                                        state.cart[productId] = { name: productName, price, cartQuantity: 0 };
-                                    }
-                                    state.cart[productId].cartQuantity += qty;
+                                    if (!state.cart[id]) state.cart[id] = { name, price, cartQuantity: 0 };
+                                    state.cart[id].cartQuantity += qty;
                                     renderCart();
                     }
 
-                    // 장바구니 업데이트
-                    function updateCartQuantity(productId, newQty) {
-                                    const qty = parseInt(newQty) || 0;
-                                    if (qty <= 0) {
-                                                        removeFromCart(productId);
-                                    } else {
-                                                        state.cart[productId].cartQuantity = qty;
-                                                        renderCart();
-                                    }
+                    // 수량 변경
+                    function updateQty(id, qty) {
+                                    const q = parseInt(qty) || 0;
+                                    if (q <= 0) removeFromCart(id);
+                                    else { state.cart[id].cartQuantity = q; renderCart(); }
                     }
 
-                    // 장바구니에서 제거
-                    function removeFromCart(productId) {
-                                    delete state.cart[productId];
+                    // 장바구니 제거
+                    function removeFromCart(id) {
+                                    delete state.cart[id];
                                     renderCart();
                     }
 
                     // 장바구니 렌더링
                     function renderCart() {
-                                    const cartItems = document.getElementById('cartItems');
-                                    const cartTotal = document.getElementById('cartTotal');
+                                    const items = document.getElementById('cartItems');
+                                    const total = document.getElementById('cartTotal');
 
                                     if (!state.cart || Object.keys(state.cart).length === 0) {
-                                                        cartItems.innerHTML = '<div style="text-align: center; padding: 1rem;">장바구니가 비어있습니다</div>';
-                                                        cartTotal.textContent = '0.00';
+                                                        items.innerHTML = '<div style="text-align: center; padding: 1rem; color: #666;">장바구니가 비어있습니다</div>';
+                                                        total.textContent = '0.00';
                                                         document.getElementById('cartCount').textContent = '0';
                                                         return;
                                     }
 
-                                    let total = 0;
-                                    let itemCount = 0;
-                                    cartItems.innerHTML = Object.entries(state.cart).map(([id, item]) => {
+                                    let totalAmount = 0, itemCount = 0;
+                                    items.innerHTML = Object.entries(state.cart).map(([id, item]) => {
                                                         const itemTotal = item.price * item.cartQuantity;
-                                                        total += itemTotal;
+                                                        totalAmount += itemTotal;
                                                         itemCount += item.cartQuantity;
                                                         return `
                                                                             <div class="cart-item">
-                                                                                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                                                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
                                                                                                                                 <strong>${item.name}</strong>
-                                                                                                                                                            <button onclick="removeFromCart('${id}')" style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: bold; padding: 0;">✕</button>
+                                                                                                                                                            <button class="btn-danger" style="width: auto;" onclick="removeFromCart('${id}')">삭제</button>
                                                                                                                                                                                     </div>
-                                                                                                                                                                                                            <div style="color: #ec4899; font-weight: bold; margin-bottom: 0.25rem;">NT$${parseFloat(item.price).toFixed(2)}</div>
-                                                                                                                                                                                                                                    <input type="number" min="1" value="${item.cartQuantity}" onchange="updateCartQuantity('${id}', this.value)" style="width: 100%; padding: 0.3rem; font-size: 0.75rem;" />
+                                                                                                                                                                                                            <div style="color: #28a745; font-weight: bold;">NT$${parseFloat(item.price).toFixed(2)}</div>
+                                                                                                                                                                                                                                    <input type="number" min="1" value="${item.cartQuantity}" onchange="updateQty('${id}', this.value)" style="width: 100%; padding: 0.5rem;" />
                                                                                                                                                                                                                                                         </div>
                                                                                                                                                                                                                                                                         `;
                                     }).join('');
 
-                                    cartTotal.textContent = total.toFixed(2);
+                                    total.textContent = totalAmount.toFixed(2);
                                     document.getElementById('cartCount').textContent = itemCount;
                     }
 
-                    // 고객 정보 업데이트
-                    function updateCustomerInfo(field, value) {
-                                    state.customerInfo[field] = value;
-                    }
-
-                    // 주문하기
+                    // 주문
                     function placeOrder() {
-                                    if (Object.keys(state.cart).length === 0) {
-                                                        alert('장바구니에 상품을 추가해주세요');
-                                                        return;
-                                    }
-                                    if (!state.customerInfo.name || !state.customerInfo.phone) {
-                                                        alert('이름과 전화번호를 입력해주세요');
-                                                        return;
-                                    }
+                                    if (Object.keys(state.cart).length === 0) { alert('장바구니에 상품을 추가하세요'); return; }
+
+                                    const name = document.getElementById('customerName').value.trim();
+                                    const phone = document.getElementById('customerPhone').value.trim();
+
+                                    if (!name || !phone) { alert('이름과 전화번호를 입력하세요'); return; }
 
                                     const orderId = Date.now().toString();
                                     const order = {
                                                         id: orderId,
-                                                        customerInfo: state.customerInfo,
+                                                        customerInfo: {
+                                                                                name,
+                                                                                phone,
+                                                                                email: document.getElementById('customerEmail').value.trim(),
+                                                                                address: document.getElementById('customerAddress').value.trim()
+                                                        },
                                                         items: state.cart,
                                                         total: Object.values(state.cart).reduce((sum, item) => sum + (item.price * item.cartQuantity), 0),
                                                         status: 'pending',
@@ -348,31 +306,22 @@
                                     };
 
                                     db.ref(`orders/${orderId}`).set(order).then(() => {
-                                                        alert('주문이 완료되었습니다! 주문번호: ' + orderId);
+                                                        alert('주문이 완료되었습니다!\n주문번호: ' + orderId);
                                                         state.cart = {};
                                                         renderCart();
                                                         document.getElementById('customerName').value = '';
                                                         document.getElementById('customerPhone').value = '';
                                                         document.getElementById('customerEmail').value = '';
                                                         document.getElementById('customerAddress').value = '';
-                                    }).catch(error => {
-                                                        alert('주문 처리 중 오류가 발생했습니다: ' + error.message);
-                                    });
+                                    }).catch(e => alert('오류: ' + e.message));
                     }
 
-                    // 은행 정보 표시
-                    function updateBankDisplay() {
-                                    document.getElementById('bankName').textContent = state.bankSettings.bankName || '-';
-                                    document.getElementById('bankAccount').textContent = state.bankSettings.bankAccount || '-';
-                                    document.getElementById('accountName').textContent = state.bankSettings.accountName || '-';
-                    }
-
-                    // 페이지 로드 시 초기화
-                    document.addEventListener('DOMContentLoaded', init);
+                    // 시작
+                    init();
         </script>
     </body>
 </html>html>
-        </script></p></p></span></span></h1>
+        </script></strong></strong></p></p></strong></h1>
             </nav>
     </body>
         </style></title>
